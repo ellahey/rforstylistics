@@ -1,9 +1,7 @@
 # rforstylistics
 R for Stylistics
 
-A repository of datasets and code used during the "R for Stylistics" workshop.
-
-This README is under construction.
+A repository of scripts for the "R for Stylistics" workshop, University College Roosevelt, 19-20 January 2023.
 
 ## Authors
 
