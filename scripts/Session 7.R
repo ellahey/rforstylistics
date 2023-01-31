@@ -28,13 +28,15 @@ wf <- read_csv("Data/wf.csv")
 # ________________________________________________
 #### TASK 1: ####
 
-# Let's say we want to see a KWIC concordance for one of the most frequent words in
-# White Fang. Using what you learned in Session 5, write some code to find out what 
+# Let's say we want to see a KWIC concordance for 
+# one of the most frequent words in
+# White Fang. Using what you learned in Session 3, write some code to find out what 
 # the ten most frequent words are.
 #__________________________________________________
 
-# In order to use most **quanteda** functions, our data first needs to be transformed
-# into a 'corpus' or 'tokens' object. I won't get into the nature of these object types
+# In order to use most **quanteda** functions, our data first needs to 
+# be transformed into a 'corpus' or 'tokens' object. 
+# I won't get into the nature of these object types
 # here. You can read more about these data types on the tutorial website linked
 # above.
 
@@ -102,17 +104,19 @@ model <- udpipe_load_model(model)
 # annotate the entire novel in this workshop. Instead, we'll just annotate the first
 # 3 chapters.
 
-# We start by subsetting the first 3 chapters and saving these as a new dataframe:
+# We start by subsetting the first 3 chapters and saving these 
+# as a new dataframe:
 
 chs1_3 <- wf[1:3,] # remember that when subsetting, the order is [row, column]. 
 # The colon says we want rows 1 through 3.
 
-# Now we tag the text using the `udpipe_annotate` function. The required arguments
+# Now we tag the text using the `udpipe_annotate` function. 
+# The required arguments
 # here are the model we want to use (which we've saved as 'model'), and the
 # object we want to annotate. In our case we want to annotate the second column (the
 # text column) of our chs1_3 dataframe. We can specify this using $ subsetting:
 
-chs1_3 <- udpipe_annotate(model, pos_test$text) %>%
+chs1_3 <- udpipe_annotate(model, chs1_3$text) %>%
   as_tibble() 
 
 # You may wonder why I've added the `as_tibble` function. `udpipe_annotate` results
@@ -137,8 +141,10 @@ selection
 
 #### 7.3 Working with the data ####
 
-# Now we can work with this data. For instance, let's say we want to see the most
-# frequently-occurring nouns. We can isolate the nouns by filtering out only those
+# Now we can work with this data. For instance, let's say we 
+# want to see the most
+# frequently-occurring nouns. We can isolate the nouns by 
+# filtering out only those
 # 'upos' values that equal "NOUN":
 
 nouns <- selection %>%
@@ -152,7 +158,8 @@ head(nouns)
 
 unique(nouns$token)
 
-# Now let's find out what the most frequent nouns are and create a new dataframe
+# Now let's find out what the most frequent nouns are and 
+# create a new dataframe
 # called 'freq_nouns' that arranges these in order from most to least frequent.
 
 # ________________________________________________
@@ -193,7 +200,7 @@ freq_nouns[1:20,] %>%
 # alphabetically by token. We want the bars to be ordered in terms of their length
 # (i.e. by frequency). We can adjust this using the `reorder` function:
 
-freq_nouns[1:20,] %>%
+viz <- freq_nouns[1:20,] %>%
   ggplot(aes(x = n, y = reorder(token, n))) + 
   geom_col ()
 
@@ -248,7 +255,7 @@ viz <- freq_nouns[1:20,] %>%
 
 # TASK 1:
 
-library(tidyverse)
+library(tidytext)
 
 wf_tidy <- wf %>%
   unnest_tokens(word, text)
@@ -259,7 +266,7 @@ wf_tidy <- anti_join(wf_tidy, my_stopwords)
 
 wf_tidy %>% 
   count(word) %>%
-  arrange(desc(n))
+arrange(desc(n))
 
 # TASK 2 (e.g.):
 

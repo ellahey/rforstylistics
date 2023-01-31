@@ -4,6 +4,9 @@
 
 # setwd("/Users/sarabartl/Desktop/RWorkshop")
 
+getwd()
+read_csv()
+
 # In this session we will run a simple sentiment analysis of 
 # the chapters in White Fang. Sentiment analysis is a popular
 # type of analysis to get at the 'sentiment' or 'emotional
@@ -25,7 +28,7 @@ wf <- read_csv("wf.csv")
 
 
 # Read in emotional valence data
-emo_ratings <- read_csv("warriner_valence_ratings.csv")
+emo_ratings <- read_csv("Scripts/Session scripts/warriner_valence_ratings.csv")
 
 # Exercise 6.1 ---------------------------------------
 # Using some of the functions we have learned yesterday,
@@ -74,7 +77,7 @@ wf_tidy
 left_join(wf_tidy, emo_ratings)
 
 # Okay, we need to rename the emo_ratings column
-rename(emo_ratings, word = Word)
+emo_ratings <- rename(emo_ratings, word = Word)
 
 # Let's try again:
 left_join(wf_tidy, emo_ratings)

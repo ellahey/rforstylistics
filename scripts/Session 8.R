@@ -14,14 +14,14 @@ library(stringr)
 # then you might need your data in the form of .txt files.
 # In this session we will write each chapter of White Fang to it's own text file. 
 
-?read.csv
+?read_csv
 
 # First of all, let's read in our cv file again and assign it to a dataframe object 'wf'
 # If you have saved it the same way as Ernestine suggested in Session 5, the line below should work for you
-wf <- read.csv("Data/wf.csv")
+wf <- read_csv("Data/wf.csv")
 
 # I have my files organised differently, so I'll run this:
-wf <- read.csv("/Users/sarabartl/Desktop/RWorkshop/wf.csv")
+wf <- read_csv("/Users/sarabartl/Desktop/RWorkshop/wf.csv")
 
 
 
@@ -51,7 +51,7 @@ head(wf)
 # Let's first see how this would work for a single chapter.
 
 chapter1 <- wf[1, "text"] # create an object containing the text of chapter 1
-write.table(chapter1, "wfchapter1.txt") # use the write.table() function to write a .txt file
+write.table(chapter1, "Data/wfchapter1.txt") # use the write.table() function to write a .txt file
 
 # We know that White Fang has 25 chapters:
 summary(wf)
@@ -70,21 +70,34 @@ for (i in 1:nrow(wf)) {
 
 # We might also want to have one .txt file that contains all of White Fang.
 # Here's a loop that allows us to do that
+full_book <-  tibble("col1" = NA)
+# If we use the code above to create an empty tibble it creates a cleaner product than
+# Sara's technique
+#full_book <- c() # initialize an empty object that will eventually contain all chapters
 
-full_book = c() # initialize an empty object that will eventually contain all chapters
 for (i in 1:nrow(wf)) { # loop through all the rows of wf
   current_chapter <- wf[i, "text"] # assign the content of the text column of the nth row to the object current_chapter
-  full_book = c(full_book, current_chapter) # add the 'current' current_chapter to full_book
+  full_book = c(full_book, current_chapter) %>%
+    paste(collapse = '\n') %>%
 }
 
+write_lines(full_book, "Data/wf_cleaner.txt")
+glimpse(full_book)
 # After the loop has finished, and all the rows/chapters have been added to full_book
 # we can again use the write.table() function to write our text to a .txt file
-write.table(full_book, "WhiteFang.txt")
+write.table(full_book, "Data/WhiteFang.txt")
 
 
 # Exercise 8.1 -------------------------------------
 # For the last exercise of this workshop, write the Guardian article
 # about Charles Dickens you scraped for the exercise in Session 5 to your
 # disk as a .txt file. Imagine you wanted to use it for further analysis
-# outside of R, so make sure to clean it if necessary. 
+# outside of R, so make sure to inspect the data and clean it if necessary.
+# (If you have cleared your environment since scraping the article,
+# you may need to re-run your code from the exercise in Session 5.
+# Alternatively, you can use Ernestine's code from the Session 5
+# solution script on GitHub).
+
+# When you have written the text to a file, check programmatically,
+# whether it has worked. 
 

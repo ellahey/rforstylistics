@@ -102,7 +102,7 @@ l %>%
 # We can have a look at the snowball lexicon by calling the `get_stopwords` function 
 # and specifying language as English and source as 'snowball'.
 
-tidytext::get_stopwords(language = "en", source = "snowball")
+get_stopwords(language = "en", source = "snowball")
 
 # Let's save the stopwords as an object in our R session environment. We can call
 # the new object 'my_stopwords'
@@ -154,21 +154,17 @@ max(raw_freq$n)
 
 # The most frequent word in the corpus is one that occurs 3015 times. Of course, 
 # there could be multiple tokens that occur 3015 times. We can check if this is 
-# the case using the function `unique`. We also have to introduce a new operator: 
-# %in%
+# the case using the function `which`. 
+
+which(raw_freq$n == 3015)
   
-# %in% can be used whenever you want to check if a specific value is in a specific 
-# vector (a vector is a set of values; in a dataframe, it corresponds to a column).
+# The code above says "give me the indexes (i.e. the locations) 
+# of the occurrences of the value 3015 in the 'n'column of 'raw_freq' dataframe.
+# It returns only one result (i.e. one location, one row number), which means
+# that the value 3015 occurs only one time in the 'n'column and is therefore
+# a unique frequency.
 
-
-3015 %in% unique(raw_freq$n)
-
-# The code above says: "Is the value '3015' (the frequency of our most frequent 
-# word) a unique (i.e. one-time-occurring) value in the column 'n' of the 
-# dataframe 'raw_freq'?" The answer is TRUE, which means only one word occurs 
-# 3015 times in our dataframe.
-
-# Let's find out which word this is. We need to find where it is located in the 
+# Let's find out which word this most freuqent word is. We need to find where it is located in the 
 # dataframe. We can do this by using the function `which()`and combining this with 
 # our previous `max` function:
 

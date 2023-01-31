@@ -5,6 +5,7 @@ library(rvest)
 library(polite)
 library(httr)
 
+
 # In this session we'll learn how to scrape text from the web. Let's imagine we wanted
 # to analyse the novel White Fang, by Jack London. This is available online at 
 # https://www.online-literature.com/london/whitefang/. 
@@ -20,7 +21,7 @@ url <- "https://www.online-literature.com/london/whitefang/"
 # Next, we check the site permissions, using the polite function `bow`. The result 
 # we're looking for is "The path is scrapable for this user-agent".
 
-(url_bow <- bow(url))
+bow(url)
 
 # We're good to go.
 # Next, we combine the `bow` function with `scrape` to pull the site's html structure:
@@ -87,7 +88,7 @@ scrape(bow(test)) %>%
   html_nodes("p") %>%
   html_text2() %>% # this function extracts the text portion of the <p> element
   paste(collapse = '\n') # this says to paste all the text together into a single
-# character vector nd to separate the lines using 'new line'. To better understand 
+# character vector and to separate the lines using 'new line'. To better understand 
 # why this step is needed, try running the code above again, but without this last step.
 
 # Right, this has worked beautifully. The next step, then, is to apply this method
@@ -130,11 +131,11 @@ for (i in 1:3) { # for each item in the series of values 1-3
 # [1] 2
 # [1] 3
 
-# We can apply the same logic to scraping our chapter urls:
-
+# We can apply the same logic to scraping our chapter urls
 
 for (i in 1:25) {      # for each item in the series of values 1-25
-  scrape_tibble[i,2] <- scrape(bow(urls[i])) %>% # assigns column 2 as the target
+  scrape_tibble[i,2] <- scrape(bow(urls[i])) %>% # iterates through the list of urls
+    # identified by i and assigns column 2 as the target
     html_nodes("p") %>%  # extract node "p" (paragraph)
     html_text2()%>%      # get the text elements within the <p> node
     paste(collapse = '\n') # paste into column 2 and collapse lines using '\n' (line break)
@@ -165,7 +166,6 @@ scrape_tibble$text <- scrape_tibble$text %>%
   str_remove_all(regex("Literature.+Chapter\\s\\d", dotall = F)) %>%
   str_remove_all(regex("Languages: English.+Sites", dotall = T))
 
-scrape_tibble
 
 # We now have the entire text of White Fang saved chapter-by-chapter in a dataframe.
 # We can now work further with this in R, or export it to another piece of software
